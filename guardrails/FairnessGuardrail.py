@@ -32,38 +32,38 @@ class FairnessGuardrail:
         
         # How much variance is acceptable
         self.variance_threshold = 0.05
-        
-        def check_drift(self, demographic_group, current_perf):
-            """Check if performance degraded for group."""
-            baseline = self.demographic_baselines.get(demographic_group)
-            if not baseline:
-                return {"checked": False, "error": f"Unknown demographic group: {demographic_group}"}
-            
-            sensitivity_drift = abs(current_perf['sensitivity'] - baseline['sensitivity'])
-            
-            if sensitivity_drift > self.variance_threshold:
-                return {
-                    "fair": False,
-                    "group": demographic_group,
-                    "action": "FLAG"
-                }
+
+    def check_drift(self, demographic_group, current_perf):
+        """Check if performance degraded for group."""
+        baseline = self.demographic_baselines.get(demographic_group)
+        if not baseline:
+            return {"checked": False, "error": f"Unknown demographic group: {demographic_group}"}
+
+        sensitivity_drift = abs(current_perf['sensitivity'] - baseline['sensitivity'])
+
+        if sensitivity_drift > self.variance_threshold:
             return {
-                "fair": True,
+                "fair": False,
                 "group": demographic_group,
-                "action": "APPROVE"
+                "action": "FLAG"
             }
-            
-        def check_pediatric(self, AURA, age_years):
-            """Pediatric-specific check."""
-            if age_years >= 18:
-                return {"applicable": False, "error": "Patient is not pediatric"}
-            
-            warnings = []
-            if "infection" in AURA.lower() and "fever" not in AURA.lower():
-                warnings.append("Sepsis without fever - atypical in pediatrics")
-            if "lactate" in AURA.lower():
-                warnings.append("Elevated lactate - concerning in pediatrics")
-            return {"applicable": True, "warnings": warnings}
+        return {
+            "fair": True,
+            "group": demographic_group,
+            "action": "APPROVE"
+        }
+
+    def check_pediatric(self, AURA, age_years):
+        """Pediatric-specific check."""
+        if age_years >= 18:
+            return {"applicable": False, "error": "Patient is not pediatric"}
+
+        warnings = []
+        if "infection" in AURA.lower() and "fever" not in AURA.lower():
+            warnings.append("Sepsis without fever - atypical in pediatrics")
+        if "lactate" in AURA.lower():
+            warnings.append("Elevated lactate - concerning in pediatrics")
+        return {"applicable": True, "warnings": warnings}
         
 # Example usage
 if __name__ == "__main__":
