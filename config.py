@@ -40,11 +40,11 @@ def _model_available():
         return False
     
 if AUTO_PULL and not _model_available():
-    print(f"[AURA-ED] Pulling model '{OLLAMA_MODEL}'...")
+    print(f"[AURA-ED] Pulling Ollama model '{OLLAMA_MODEL}'...")
     ollama_client.pull(OLLAMA_MODEL)
-    print(f"[AURA-ED] Model '{OLLAMA_MODEL}' ready.")
+    print(f"[AURA-ED] Ollama model '{OLLAMA_MODEL}' ready.")
 else:
-    print(f"[AURA-ED] Model '{OLLAMA_MODEL}' found locally.")
+    print(f"[AURA-ED] Ollama default model '{OLLAMA_MODEL}' found locally.")
  
  
 # Load requirements   
