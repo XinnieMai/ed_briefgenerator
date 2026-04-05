@@ -43,15 +43,6 @@ python extract_master_dataset.py
 - Composition: A total of **216** variables are included in `master_dataset.csv`
 - Protocol: 80/20 train-test split.
 
-# Inference Pipeline
-To generate the Clinical Risk Briefs, the system utilizes a Retrieval-Augmented Generation (RAG) architecture.
-- Employs a zero-shot chain-of-thought prompting strategy to force the model to weigh acute physiological instability against chronic disease burden.
-- The engine integrates triage vitals, high-priority labs (Lactate, Troponin), and validated risk scores (NEWS2, CCI, ECI) into a constrained output schema.
-
-~~~
-python brief_generator_llama.py --input master_dataset.csv --model llama3.1:8b
-~~~
-
 # Running the App
 
 ## Prerequisites
@@ -86,6 +77,15 @@ streamlit run AURA-ED.py
 ```
 
 The app will open at `http://localhost:8501`. Select a patient record and choose a model from the dropdown to generate an Early Risk Profile.
+
+# Inference Pipeline
+To generate the Clinical Risk Briefs, the system utilizes a Retrieval-Augmented Generation (RAG) architecture.
+- Employs a zero-shot chain-of-thought prompting strategy to force the model to weigh acute physiological instability against chronic disease burden.
+- The engine integrates triage vitals, high-priority labs (Lactate, Troponin), and validated risk scores (NEWS2, CCI, ECI) into a constrained output schema.
+
+~~~
+python brief_generator_llama.py --input master_dataset.csv --model llama3.1:8b
+~~~
 
 # Evaluation Results
 
